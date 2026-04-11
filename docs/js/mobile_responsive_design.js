@@ -14,7 +14,6 @@ function refreshWidthForMobileDesign() {
 		document.body.classList.remove('mobile');
 		mainContainer.classList.remove('mobile');
 		contents.classList.remove('mobile');
-		contents.classList.remove('expanded');
 	}
 
 }

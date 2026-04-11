@@ -156,12 +156,20 @@
  	margin-top: 64px;
  }
 
- .mobile>#contents-list>ul>li {
+ .mobile>#contents-list>ul>li,
+ .mobile>#contents-list>.backto {
+ 	position: relative;
  	border-top: solid 1px transparent;
- 	padding-top: 12px;
- 	padding-bottom: 12px;
+ 	padding-top: 24px;
+ 	padding-bottom: 24px;
  	text-align: center;
  }
+
+ .mobile>#contents-list>ul>li:hover,
+ .mobile>#contents-list>.backto:hover {
+ 	background-color: #109090;
+ }
+
 
  .mobile.expanded #contents-list>ul>li {
  	border-color: #ffffff72;
@@ -173,12 +181,23 @@
  	padding: 0px;
  }
 
- .mobile>#contents-list>ul a {
+ .mobile>#contents-list>ul a,
+ .mobile>#contents-list>.backto a {
+ 	position: absolute;
+ 	inset: 0;
+ 	display: flex;
+ 	align-items: center;
+ 	justify-content: center;
  	transition: color 0.2s;
  	color: transparent;
  }
 
- .mobile.expanded>#contents-list>ul a {
+ .mobile>#contents-list>.backto a {
+ 	font-size: 20px;
+ }
+
+ .mobile.expanded>#contents-list>ul a,
+ .mobile.expanded>#contents-list .backto a {
  	transition: color 0.2s;
  	color: white;
  }
