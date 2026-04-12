@@ -1,15 +1,25 @@
-const scriptTag = document.currentScript;
+const SIDEBAR_CACHE_ID = 'sidebar-cache';
+
+const cachedSidebarHtml = sessionStorage.getItem(SIDEBAR_CACHE_ID);
+
+if (cachedSidebarHtml) {
+	loadSidebarHtml(cachedSidebarHtml);
+}
 
 fetch('contents.html')
 	.then(r => r.text())
 	.then(html => {
-		const div = document.createElement('div');
-		div.id = 'contents-container';
-		div.innerHTML = html;
-		scriptTag.replaceWith(div);
-
-		afterSidebarLoaded();
+		sessionStorage.setItem(SIDEBAR_CACHE_ID, html);
+		loadSidebarHtml(html);
 	});
+
+
+function loadSidebarHtml(html) {
+	const contentsDiv = document.getElementById('contents');
+	contentsDiv.innerHTML = html;
+
+	afterSidebarLoaded();
+}
 
 function pressExpandButton() {
 	const contents = document.querySelector('#contents');
