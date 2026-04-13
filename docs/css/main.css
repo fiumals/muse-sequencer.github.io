@@ -1,6 +1,5 @@
  #container {
  	width: 100%;
-
  }
 
  img {
@@ -13,6 +12,31 @@
  #logo {
  	float: left;
  	vertical-align: center;
+ }
+
+ #logo-container {
+ 	margin-top: 15px;
+ 	display: flex;
+ 	justify-content: center;
+ 	align-items: center;
+ }
+
+ #logo-container a {
+	 display: inline-flex;
+ 	font-family: 'Raleway', sans-serif;
+ 	font-size: 20px;
+	font-weight: bold;
+ 	color: white;
+	justify-content: center;
+	align-items: center;
+ }
+
+ #logo-container a:hover {
+ 	text-decoration: none;
+ }
+
+ #logo-container img {
+	margin-right: 5px;
  }
 
  #contents {
@@ -43,7 +67,7 @@
  	/*     height: 100%; */
  	padding-left: 20px;
  	padding-right: 50px;
- 	max-width: 1000px;
+ 	/* max-width: 1000px; */
  	margin-left: 300px;
  	background-color: white;
  	color: black;
@@ -96,6 +120,36 @@
  }
 
 
+ #mini-searchbar-container {
+ 	display: flex;
+ 	overflow: hidden;
+ 	justify-content: center;
+ 	align-items: center;
+ 	max-height: 3em;
+ 	margin: 0.7em;
+ 	margin-left: 0px;
+ 	padding-right: 5px;
+ }
+
+ #mini-searchbar {
+ 	font-size: 17px;
+ 	padding: 8px;
+ 	padding-left: 1.4em;
+ 	width: 90%;
+ 	border-radius: 2rem;
+ 	margin: 0px;
+ }
+
+ #mini-searchbar-icon {
+ 	position: relative;
+ 	left: 1.4em;
+ 	bottom: 0.1em;
+ 	font-size: 23px;
+ 	padding: 10px;
+ }
+
+
+
  /* mobile responsive design  */
  #mobile-bar {
  	display: none;
@@ -109,6 +163,7 @@
  	width: 100%;
  	color: white;
  	background-color: #008080;
+ 	cursor: pointer;
  }
 
  #mobile-bar>h2 {
@@ -124,6 +179,7 @@
  	font-size: 26px;
  	font-weight: bolder;
  	padding-left: 12px;
+ 	padding-right: 12px;
  	top: 0px;
  	left: 0px;
  	z-index: 600;
@@ -131,8 +187,13 @@
  	color: white;
  	background-color: transparent;
  	border: none;
- 	cursor: pointer;
+ 	pointer-events: none;
  }
+
+ #mobile-bar:hover #mobile-bar-expand-button {
+ 	background-color: #109090;
+ }
+
 
  @media screen and (max-width: 1000px) {
  	#main {
@@ -151,7 +212,7 @@
  		transition: height 0.2s;
  		width: 100%;
  		height: 52px;
-		overflow-y: auto;
+ 		overflow-y: auto;
  	}
 
 
