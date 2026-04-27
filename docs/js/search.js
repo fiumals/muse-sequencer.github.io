@@ -64,7 +64,7 @@ function search(searchQuery) {
 
 		messageDiv.innerHTML = searchQueryEmpty ? messageDiv.getAttribute("enter-query-message") : messageDiv.getAttribute("no-results-message").replace('{searchQuery}', searchQuery);
 	} else {
-		messageDiv.innerHTML = resultsCount + ' matches';
+		messageDiv.innerHTML = messageDiv.getAttribute("results-message").replace('{matches}', resultsCount);
 	}
 
 	resultsContainer.replaceChildren(fragment);
