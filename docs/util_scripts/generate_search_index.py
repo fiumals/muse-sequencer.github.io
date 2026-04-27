@@ -1,3 +1,4 @@
+#!/bin/python
 from bs4 import BeautifulSoup # html parser
 import os
 import json

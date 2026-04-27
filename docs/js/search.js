@@ -10,7 +10,7 @@ let baseResultDiv = document.getElementById('example-search-result');
 baseResultDiv.removeAttribute('id');
 baseResultDiv.remove();
 
-const alternativeMessageDiv = document.getElementById('alternative-message');
+const messageDiv = document.getElementById('message');
 const resultsContainer = document.getElementById('searchresults');
 
 const parameters = new URLSearchParams(window.location.search);
@@ -55,15 +55,16 @@ function search(searchQuery) {
 				const thisResultDiv = articleIndexIntoSearchResultDiv(articleIndex, searchQuery);
 				fragment.appendChild(thisResultDiv);
 
-				resultsCount++;
+				resultsCount += howManyOcurrences(articleIndex.content, searchQuery);
 			}
 		}
 	}
 
-	if (resultsCount == 0){
-		alternativeMessageDiv.innerHTML = searchQueryEmpty ? 'Enter a search term' : `No results for <em>"${searchQuery}"</em> :(`;
-	}else{
-		alternativeMessageDiv.innerHTML = resultsCount + ' results';
+	if (resultsCount == 0) {
+
+		messageDiv.innerHTML = searchQueryEmpty ? messageDiv.getAttribute("enter-query-message") : messageDiv.getAttribute("no-results-message").replace('{searchQuery}', searchQuery);
+	} else {
+		messageDiv.innerHTML = resultsCount + ' matches';
 	}
 
 	resultsContainer.replaceChildren(fragment);
@@ -79,12 +80,15 @@ function articleIndexIntoSearchResultDiv(articleIndex, searchQuery) {
 	const newResultDiv = baseResultDiv.cloneNode(true);
 
 	newResultDiv.querySelector('a').href = getLinkWithHighlight(articleIndex.url, searchQuery);
-	newResultDiv.querySelector('a').textContent = articleIndex.title;
+	newResultDiv.querySelector('.search-result-title').textContent = articleIndex.title;
+
+	const ocurrencesSpan = newResultDiv.querySelector('.search-result-ocurrences-count');
+	ocurrencesSpan.textContent = ocurrencesSpan.textContent.replace('{matches}', howManyOcurrences(articleIndex.content, searchQuery));
 
 	const startIndex = articleIndex.content.toLowerCase().indexOf(searchQuery.toLowerCase());
 	const endIndex = startIndex + searchQuery.length;
 
-	const CHARACTERS_AROUND_HIGHLIGHT = 250;
+	const CHARACTERS_AROUND_HIGHLIGHT = 150;
 	let paragraphStartIndex = Math.max(0, startIndex - CHARACTERS_AROUND_HIGHLIGHT);
 	let paragraphEndIndex = Math.min(articleIndex.content.length - 1, endIndex + CHARACTERS_AROUND_HIGHLIGHT);
 
@@ -107,13 +111,13 @@ function articleIndexIntoSearchResultDiv(articleIndex, searchQuery) {
 	const textHighlighted = articleIndex.content.slice(startIndex, endIndex);
 	const textAfter = articleIndex.content.slice(endIndex, paragraphEndIndex);
 
-	newResultDiv.querySelector('.search-result-content').innerHTML = 
+	newResultDiv.querySelector('.search-result-content').innerHTML =
 		`... ${format(textBefore)}<mark>${format(textHighlighted)}</mark>${format(textAfter)}...`;
 
 	return newResultDiv;
 }
 
-function format(text){
+function format(text) {
 	return escapeHtml(text);
 }
 
@@ -123,14 +127,21 @@ function format(text){
  */
 function escapeHtml(text) {
 	return text
-		.replaceAll('\n', '<br>')
-		.replaceAll('<', '&lt;')
-		.replaceAll('>', '&gt;');
+		.replaceAll('<?xml', '&lt;' + 'xml')
 }
 
 function getLinkWithHighlight(url, highlightedText) {
 	const encodedText = encodeURIComponent(highlightedText);
 	return `${url}#:~:text=${encodedText}`;
+}
+
+/**
+	* @param {string} inString 
+	* @param {string} ofThis 
+	* @returns {string}
+*/
+function howManyOcurrences(inString, ofThis) {
+	return inString.toLowerCase().split(ofThis.toLowerCase()).length - 1;
 }
 
 

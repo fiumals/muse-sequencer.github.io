@@ -1,3 +1,8 @@
+mark {
+	background: yellow;
+	font-weight: bold;
+}
+
 #searchbar-container {
 	display: flex;
 	overflow: hidden;
@@ -9,33 +14,41 @@
 #search-icon {
 	position: relative;
 	left: 1.4em;
-	bottom: 0.1em;
+	padding-bottom: 6px;
 	font-size: 23px;
-	padding: 10px;
+	z-index: 1;
 }
 
 #searchbar {
 	font-size: 17px;
 	padding: 8px;
-	padding-left: 1.4em;
+	padding-left: 2.1em;
 	width: 100%;
 	border-radius: 2rem;
 }
 
 #searchresults {
 	display: block;
+
+	justify-content: center;
+	align-items: center;
+
+	overflow: auto;
+
+	padding: 2px 1em;
 	width: 100%;
-	padding: 1em 0.4em;
+	margin: auto;
+	margin-top: 4px;
 	border-radius: 0.4em;
+	padding-bottom: 6px;
 }
 
 .search-result {
-	overflow: hidden;
 	width: 100%;
 	border: solid 1px black;
 	border-radius: 0.4em;
-	margin-bottom: 8px;
-	height: 10em;
+	margin-bottom: 12px;
+	overflow: hidden;
 
 	position: relative;
 }
@@ -45,21 +58,29 @@
 	background-color: #008080;
 	color: white;
 	padding: 6px;
-	height: 1.2em;
+	height: 2em;
 }
 
 .search-result-header a {
-	text-decoration: none;
-	color: white;
-	font-size: 1.1em;
-	font-weight: bold;
-	padding: 6px;
-
 	position: absolute;
 	inset: 0;
 }
 
-.search-result:has(a:hover){
+.search-result-title {
+	text-decoration: none;
+	color: white;
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+.search-result-ocurrences-count {
+	color: #e0e0e0;
+	margin-left: 10px;
+	font-size: 0.9em;
+	font-weight: bolder;
+}
+
+.search-result:has(a:hover) {
 	background-color: lightgray;
 }
 
@@ -68,7 +89,8 @@
 	padding: 5px;
 }
 
-#alternative-message {
+#message {
+	margin-top: 6px;
 	width: 100%;
 	text-align: center;
 	color: gray;
