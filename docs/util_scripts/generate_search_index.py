@@ -31,12 +31,10 @@ for link in contentsSoup.select('.articlelink'):
         f.close()
 
         soup = BeautifulSoup(html, 'html.parser')
-        title = "undefined title"
+        title = link.get_text() or "undefined title"
         url = filename
         content = "undefined content"
 
-
-        h1Element = soup.select_one('h1');
         mainDiv = soup.select_one('#main');
 
         if mainDiv is None:
@@ -44,13 +42,6 @@ for link in contentsSoup.select('.articlelink'):
             continue
 
         # default to the first h1 element to get the title of the page else fall back to first title element 
-
-        if h1Element is not None:
-            title = h1Element.get_text()
-        else:
-            titleElement = soup.select_one('title')
-            title = titleElement.get_text() if titleElement is not None else "undefined title"
-
 
         content = mainDiv.get_text(separator=" ", strip=True)
 
