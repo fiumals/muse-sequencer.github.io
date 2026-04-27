@@ -2,8 +2,12 @@
 from bs4 import BeautifulSoup # html parser
 import os
 import json
+import sys
 
-directory = './'
+# this script generates the search index for the search functionality, it gets the text contents from all .articlelink elements in a contents.html file
+# run this from the script from the same directory as the contents.html file or pass that directory as the first argument
+
+directory = sys.argv[1] if len(sys.argv) > 1 else './'
 indexedFiles = []
 
 if not os.path.exists(directory + 'contents.html'):
@@ -56,7 +60,7 @@ for link in contentsSoup.select('.articlelink'):
             'content': content
         })
 
-jsonFile = open('search_index.json', 'w')
+jsonFile = open(directory + 'search_index.json', 'w')
 json.dump(indexedFiles, jsonFile, indent = 2)
 jsonFile.close()
 
