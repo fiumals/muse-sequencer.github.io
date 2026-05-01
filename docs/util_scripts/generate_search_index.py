@@ -2,56 +2,65 @@
 from bs4 import BeautifulSoup # html parser
 import os
 import json
-import sys
 
-# this script generates the search index for the search functionality, it gets the text contents from all .articlelink elements in a contents.html file
-# run this from the script from the same directory as the contents.html file or pass that directory as the first argument
+# this script generates the search indexes for the search functionality, it gets the text contents from all .articlelink elements in a contents.html file
 
-directory = sys.argv[1] if len(sys.argv) > 1 else './'
-indexedFiles = []
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.join(BASE_DIR, "../")
 
-if not os.path.exists(directory + 'contents.html'):
-    print("contents.html not found in current working directory")
-    exit(1)
+directories = [
+        './', # english 
+        'es/', # spanish
+        ]
 
-contentsFile = open(directory + 'contents.html', 'r')
-contentsHtml = contentsFile.read()
-contentsFile.close()
+for unresolved_dir in directories:
+    print("------------------- generating search index in " + unresolved_dir)
 
-contentsSoup = BeautifulSoup(contentsHtml, 'html.parser')
+    directory = os.path.join(ROOT_DIR, unresolved_dir)
+    indexedFiles = []
 
-for link in contentsSoup.select('.articlelink'):
-    filename = str(link['href'])
+    if not os.path.exists(directory + 'contents.html'):
+        print("contents.html not found in " + directory)
+        exit(1)
 
-    if filename.endswith(".html"):
-        print("indexing: " + filename)
+    contentsFile = open(directory + 'contents.html', 'r')
+    contentsHtml = contentsFile.read()
+    contentsFile.close()
 
-        f = open(directory + filename, 'r')
-        html = f.read()
-        f.close()
+    contentsSoup = BeautifulSoup(contentsHtml, 'html.parser')
 
-        soup = BeautifulSoup(html, 'html.parser')
-        title = link.get_text() or "undefined title"
-        url = filename
-        content = "undefined content"
+    for link in contentsSoup.select('.articlelink'):
+        filename = str(link['href'])
 
-        mainDiv = soup.select_one('#main');
+        if filename.endswith(".html"):
+            print("indexing: " + filename)
 
-        if mainDiv is None:
-            print("no main div, skipping " + filename)
-            continue
+            f = open(directory + filename, 'r')
+            html = f.read()
+            f.close()
 
-        # default to the first h1 element to get the title of the page else fall back to first title element 
+            soup = BeautifulSoup(html, 'html.parser')
+            title = link.get_text() or "undefined title"
+            url = filename
+            content = "undefined content"
 
-        content = mainDiv.get_text(separator=" ", strip=True)
+            mainDiv = soup.select_one('#main');
 
-        indexedFiles.append({
-            'title': title,
-            'url': url,
-            'content': content
-        })
+            if mainDiv is None:
+                print("no main div, skipping " + filename)
+                continue
 
-jsonFile = open(directory + 'search_index.json', 'w')
-json.dump(indexedFiles, jsonFile, indent = 2)
-jsonFile.close()
+            # default to the first h1 element to get the title of the page else fall back to first title element 
+
+            content = mainDiv.get_text(separator=" ", strip=True)
+
+            indexedFiles.append({
+                'title': title,
+                'url': url,
+                'content': content
+            })
+
+    jsonFile = open(directory + 'search_index.json', 'w')
+    json.dump(indexedFiles, jsonFile, indent = 2)
+    jsonFile.close()
 

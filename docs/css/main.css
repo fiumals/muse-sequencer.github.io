@@ -69,6 +69,18 @@ img {
 	background-color: white;
 }
 
+.note {
+	padding: 10px;
+	background-color: antiquewhite;
+	border-radius: 5px;
+	margin-bottom: 10px
+}
+
+.note::before {
+	content: "Note: ";
+	font-weight: bold;
+}
+
 ul {
 	list-style-type: none;
 }
@@ -188,6 +200,8 @@ p.backto {
 #mobile-bar:hover #mobile-bar-expand-button {
 	background-color: #109090;
 }
+
+
 
 
 @media screen and (max-width: 1000px) {
